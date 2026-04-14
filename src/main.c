@@ -3,7 +3,7 @@
 
 void on_draw(XGui *gui, void *userdata)
 {
-    printf("draw\n");
+    xgui_draw_rect(gui, 100, 100, 200, 150);
 }
 
 void on_key(XGui *gui, int keycode, void *userdata)

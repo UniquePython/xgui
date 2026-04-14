@@ -27,11 +27,14 @@ bool xgui_init(XGui *gui, int width, int height)
 
     XMapWindow(gui->display, gui->window);
 
+    gui->gc = XCreateGC(gui->display, gui->window, 0, NULL);
+
     return true;
 }
 
 void xgui_shutdown(XGui *gui)
 {
+    XFreeGC(gui->display, gui->gc);
     XDestroyWindow(gui->display, gui->window);
     XCloseDisplay(gui->display);
 }
@@ -73,4 +76,9 @@ void xgui_run(XGui *gui)
 void xgui_quit(XGui *gui)
 {
     gui->running = false;
+}
+
+void xgui_draw_rect(XGui *gui, int x, int y, int width, int height)
+{
+    XFillRectangle(gui->display, gui->window, gui->gc, x, y, width, height);
 }

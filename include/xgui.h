@@ -12,6 +12,7 @@ typedef struct xgui_t
 {
     Display *display;
     Window window;
+    GC gc;
     int screen;
     bool running;
     XGui_DrawCallback on_draw;
@@ -27,3 +28,5 @@ void xgui_set_key_callback(XGui *gui, XGui_KeyCallback cb, void *userdata);
 
 void xgui_run(XGui *gui);
 void xgui_quit(XGui *gui);
+
+void xgui_draw_rect(XGui *gui, int x, int y, int width, int height);
