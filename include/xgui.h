@@ -28,6 +28,7 @@ typedef struct xgui_t
     Display *display;
     Window window;
     GC gc;
+    XFontStruct *font;
     int screen;
     bool running;
     XGui_DrawCallback on_draw;
@@ -55,3 +56,5 @@ typedef struct
 
 void xgui_clear(XGui *gui, XGui_Color color);
 void xgui_draw_rect(XGui *gui, int x, int y, int width, int height, XGui_Color color);
+
+void xgui_draw_text(XGui *gui, int x, int y, const char *text, XGui_Color color);

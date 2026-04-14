@@ -1,6 +1,7 @@
 #include "xgui.h"
 
 #include <stdio.h>
+#include <string.h>
 
 bool xgui_init(XGui *gui, int width, int height)
 {
@@ -29,11 +30,20 @@ bool xgui_init(XGui *gui, int width, int height)
 
     gui->gc = XCreateGC(gui->display, gui->window, 0, NULL);
 
+    gui->font = XLoadQueryFont(gui->display, "-misc-fixed-medium-r-normal--16-110-100-100-c-80-iso8859-1");
+    if (!gui->font)
+    {
+        fprintf(stderr, "Cannot load font\n");
+        return 0;
+    }
+    XSetFont(gui->display, gui->gc, gui->font->fid);
+
     return true;
 }
 
 void xgui_shutdown(XGui *gui)
 {
+    XFreeFont(gui->display, gui->font);
     XFreeGC(gui->display, gui->gc);
     XDestroyWindow(gui->display, gui->window);
     XCloseDisplay(gui->display);
@@ -116,4 +126,10 @@ void xgui_draw_rect(XGui *gui, int x, int y, int width, int height, XGui_Color c
 {
     XSetForeground(gui->display, gui->gc, color_to_pixel(gui, color));
     XFillRectangle(gui->display, gui->window, gui->gc, x, y, width, height);
+}
+
+void xgui_draw_text(XGui *gui, int x, int y, const char *text, XGui_Color color)
+{
+    XSetForeground(gui->display, gui->gc, color_to_pixel(gui, color));
+    XDrawString(gui->display, gui->window, gui->gc, x, y, text, strlen(text));
 }
