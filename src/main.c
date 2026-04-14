@@ -3,7 +3,8 @@
 
 void on_draw(XGui *gui, void *userdata)
 {
-    xgui_draw_rect(gui, 100, 100, 200, 150);
+    xgui_draw_rect(gui, 100, 100, 200, 150, XGUI_RGB(255, 0, 0));
+    xgui_draw_rect(gui, 400, 200, 100, 100, XGUI_RGB(0, 0, 255));
 }
 
 void on_key(XGui *gui, int keycode, void *userdata)

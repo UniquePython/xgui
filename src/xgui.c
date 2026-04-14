@@ -78,7 +78,19 @@ void xgui_quit(XGui *gui)
     gui->running = false;
 }
 
-void xgui_draw_rect(XGui *gui, int x, int y, int width, int height)
+static unsigned long color_to_pixel(XGui *gui, XGui_Color color)
 {
+    XColor xcolor;
+    xcolor.red = color.r * 257;
+    xcolor.green = color.g * 257;
+    xcolor.blue = color.b * 257;
+    xcolor.flags = DoRed | DoGreen | DoBlue;
+    XAllocColor(gui->display, DefaultColormap(gui->display, gui->screen), &xcolor);
+    return xcolor.pixel;
+}
+
+void xgui_draw_rect(XGui *gui, int x, int y, int width, int height, XGui_Color color)
+{
+    XSetForeground(gui->display, gui->gc, color_to_pixel(gui, color));
     XFillRectangle(gui->display, gui->window, gui->gc, x, y, width, height);
 }

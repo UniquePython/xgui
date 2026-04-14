@@ -29,4 +29,11 @@ void xgui_set_key_callback(XGui *gui, XGui_KeyCallback cb, void *userdata);
 void xgui_run(XGui *gui);
 void xgui_quit(XGui *gui);
 
-void xgui_draw_rect(XGui *gui, int x, int y, int width, int height);
+typedef struct
+{
+    unsigned char r, g, b;
+} XGui_Color;
+
+#define XGUI_RGB(r, g, b) ((XGui_Color){r, g, b})
+
+void xgui_draw_rect(XGui *gui, int x, int y, int width, int height, XGui_Color color);
