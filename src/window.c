@@ -21,7 +21,7 @@ bool window_init(XGui_Window *win, int width, int height)
         BlackPixel(win->display, win->screen),
         WhitePixel(win->display, win->screen));
 
-    XSelectInput(win->display, win->window, ExposureMask | KeyPressMask | ButtonPressMask | ButtonReleaseMask);
+    XSelectInput(win->display, win->window, ExposureMask | KeyPressMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask);
 
     XMapWindow(win->display, win->window);
 
