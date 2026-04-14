@@ -35,3 +35,42 @@ void xgui_shutdown(XGui *gui)
     XDestroyWindow(gui->display, gui->window);
     XCloseDisplay(gui->display);
 }
+
+void xgui_set_draw_callback(XGui *gui, XGui_DrawCallback cb, void *userdata)
+{
+    gui->on_draw = cb;
+    gui->userdata = userdata;
+}
+
+void xgui_set_key_callback(XGui *gui, XGui_KeyCallback cb, void *userdata)
+{
+    gui->on_key = cb;
+    gui->userdata = userdata;
+}
+
+void xgui_run(XGui *gui)
+{
+    XEvent event;
+    gui->running = true;
+
+    while (gui->running)
+    {
+        XNextEvent(gui->display, &event);
+        switch (event.type)
+        {
+        case Expose:
+            if (gui->on_draw)
+                gui->on_draw(gui, gui->userdata);
+            break;
+        case KeyPress:
+            if (gui->on_key)
+                gui->on_key(gui, event.xkey.keycode, gui->userdata);
+            break;
+        }
+    }
+}
+
+void xgui_quit(XGui *gui)
+{
+    gui->running = false;
+}
