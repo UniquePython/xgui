@@ -23,7 +23,7 @@ bool xgui_init(XGui *gui, int width, int height)
         WhitePixel(gui->display, gui->screen)  /* background color */
     );
 
-    XSelectInput(gui->display, gui->window, ExposureMask | KeyPressMask | ButtonPressMask);
+    XSelectInput(gui->display, gui->window, ExposureMask | KeyPressMask | ButtonPressMask | ButtonReleaseMask);
 
     XMapWindow(gui->display, gui->window);
 
@@ -51,6 +51,12 @@ void xgui_set_key_callback(XGui *gui, XGui_KeyCallback cb, void *userdata)
     gui->userdata = userdata;
 }
 
+void xgui_set_mouse_callback(XGui *gui, XGui_MouseCallback cb, void *userdata)
+{
+    gui->on_mouse = cb;
+    gui->userdata = userdata;
+}
+
 void xgui_run(XGui *gui)
 {
     XEvent event;
@@ -68,6 +74,17 @@ void xgui_run(XGui *gui)
         case KeyPress:
             if (gui->on_key)
                 gui->on_key(gui, event.xkey.keycode, gui->userdata);
+            break;
+        case ButtonPress:
+            if (gui->on_mouse)
+                gui->on_mouse(gui, event.xbutton.x, event.xbutton.y, (XGui_MouseButton)event.xbutton.button,
+                              XGUI_MOUSE_PRESS, gui->userdata);
+            break;
+
+        case ButtonRelease:
+            if (gui->on_mouse)
+                gui->on_mouse(gui, event.xbutton.x, event.xbutton.y, (XGui_MouseButton)event.xbutton.button,
+                              XGUI_MOUSE_RELEASE, gui->userdata);
             break;
         }
     }

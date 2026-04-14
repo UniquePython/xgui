@@ -8,6 +8,21 @@ typedef struct xgui_t XGui;
 typedef void (*XGui_DrawCallback)(XGui *gui, void *userdata);
 typedef void (*XGui_KeyCallback)(XGui *gui, int keycode, void *userdata);
 
+typedef enum
+{
+    XGUI_BUTTON_LEFT = 1,
+    XGUI_BUTTON_MIDDLE = 2,
+    XGUI_BUTTON_RIGHT = 3
+} XGui_MouseButton;
+
+typedef enum
+{
+    XGUI_MOUSE_PRESS,
+    XGUI_MOUSE_RELEASE
+} XGui_MouseAction;
+
+typedef void (*XGui_MouseCallback)(XGui *gui, int x, int y, XGui_MouseButton button, XGui_MouseAction action, void *userdata);
+
 typedef struct xgui_t
 {
     Display *display;
@@ -17,6 +32,7 @@ typedef struct xgui_t
     bool running;
     XGui_DrawCallback on_draw;
     XGui_KeyCallback on_key;
+    XGui_MouseCallback on_mouse;
     void *userdata;
 } XGui;
 
@@ -25,6 +41,7 @@ void xgui_shutdown(XGui *gui);
 
 void xgui_set_draw_callback(XGui *gui, XGui_DrawCallback cb, void *userdata);
 void xgui_set_key_callback(XGui *gui, XGui_KeyCallback cb, void *userdata);
+void xgui_set_mouse_callback(XGui *gui, XGui_MouseCallback cb, void *userdata);
 
 void xgui_run(XGui *gui);
 void xgui_quit(XGui *gui);
