@@ -53,4 +53,5 @@ typedef struct
 
 #define XGUI_RGB(r, g, b) ((XGui_Color){r, g, b})
 
+void xgui_clear(XGui *gui, XGui_Color color);
 void xgui_draw_rect(XGui *gui, int x, int y, int width, int height, XGui_Color color);

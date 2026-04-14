@@ -106,6 +106,12 @@ static unsigned long color_to_pixel(XGui *gui, XGui_Color color)
     return xcolor.pixel;
 }
 
+void xgui_clear(XGui *gui, XGui_Color color)
+{
+    XSetForeground(gui->display, gui->gc, color_to_pixel(gui, color));
+    XFillRectangle(gui->display, gui->window, gui->gc, 0, 0, 10000, 10000);
+}
+
 void xgui_draw_rect(XGui *gui, int x, int y, int width, int height, XGui_Color color)
 {
     XSetForeground(gui->display, gui->gc, color_to_pixel(gui, color));

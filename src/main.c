@@ -3,6 +3,7 @@
 
 void on_draw(XGui *gui, void *userdata)
 {
+    xgui_clear(gui, XGUI_RGB(30, 30, 30));
     xgui_draw_rect(gui, 100, 100, 200, 150, XGUI_RGB(255, 0, 0));
     xgui_draw_rect(gui, 400, 200, 100, 100, XGUI_RGB(0, 0, 255));
 }
